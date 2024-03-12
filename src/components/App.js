@@ -28,6 +28,8 @@ function App() {
 	const [isLoading, setIsLoading] = useState(true)
 
 	const loadBlockchainData = async () => {
+		console.log('Loading blockchain data')
+
 		// Initiate provider
 		const provider = await new ethers.providers.Web3Provider(window.ethereum)
 		setProvider(provider)
