@@ -28,46 +28,47 @@ function App() {
 	const [isLoading, setIsLoading] = useState(true)
 
 	const loadBlockchainData = async () => {
-		console.log('Loading blockchain data')
+    // Intiantiate provider
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    setProvider(provider)
 
-		// Initiate provider
-		const provider = await new ethers.providers.Web3Provider(window.ethereum)
-		setProvider(provider)
+    // Fetch Chain ID
+    const { chainId } = await provider.getNetwork()
 
-		// Initiate contracts
-		const token = new ethers.Contract(config[31337].token.address, TOKEN_ABI, provider)
-		const crowdsale = new ethers.Contract(config[31337].crowdsale.address, CROWDSALE_ABI, provider)
-		setCrowdsale(crowdsale)
+    // Intiantiate contracts
+    const token = new ethers.Contract(config[chainId].token.address, TOKEN_ABI, provider)
+    const crowdsale = new ethers.Contract(config[chainId].crowdsale.address, CROWDSALE_ABI, provider)
+    setCrowdsale(crowdsale)
 
-		// Fetch accounts
-		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-		const account = ethers.utils.getAddress(accounts[0])
-		setAccount(account)
+    // Fetch account
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = ethers.utils.getAddress(accounts[0])
+    setAccount(account)
 
-		// Fetch account balance
-		const accountBalance = ethers.utils.formatUnits(await token.balanceOf(account), 18)
-		setAccountBalance(accountBalance)
+    // Fetch account balance
+    const accountBalance = ethers.utils.formatUnits(await token.balanceOf(account), 18)
+    setAccountBalance(accountBalance)
 
-		// Fetch price
-		const price = ethers.utils.formatUnits(await crowdsale.price(), 18)
-		setPrice(price)
+    // Fetch price
+    const price = ethers.utils.formatUnits(await crowdsale.price(), 18)
+    setPrice(price)
 
-		// Fetch max tokens
-		const maxTokens = ethers.utils.formatUnits(await crowdsale.maxTokens(), 18)
-		setMaxTokens(maxTokens)
+    // Fetch max tokens
+    const maxTokens = ethers.utils.formatUnits(await crowdsale.maxTokens(), 18)
+    setMaxTokens(maxTokens)
 
-		// Fetch tokens sold
-		const tokensSold = ethers.utils.formatUnits(await crowdsale.tokensSold(), 18)
-		setTokensSold(tokensSold)
+    // Fetch tokens sold
+    const tokensSold = ethers.utils.formatUnits(await crowdsale.tokensSold(), 18)
+    setTokensSold(tokensSold)
 
-		setIsLoading(false)
-	}
+    setIsLoading(false)
+  }
 
-	useEffect(() => {
-		if (isLoading) {
-		loadBlockchainData()	
-		}
-	}, [isLoading]);
+  useEffect(() => {
+    if (isLoading) {
+      loadBlockchainData()
+    }
+  }, [isLoading])
 
 	return(
 		<Container>

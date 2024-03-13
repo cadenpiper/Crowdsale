@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 
 const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 	const [amount, setAmount] = useState('0')
-	const [isWaiting, setIsWaiting] = useState('false')
+	const [isWaiting, setIsWaiting] = useState(false)
 
 	const buyHandler = async (e) => {
 		e.preventDefault()
