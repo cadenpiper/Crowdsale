@@ -6,5 +6,14 @@
 		"crowdsale": {
 			"address": "0x3588C1d96A100Cb0053dc0C66B5AF49E772e03aF"
 		}
-	}
+	},
+
+	"31337": {
+	    "token": {
+	    	"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+	    },
+	    "crowdsale": {
+	    	"address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+	    }
+	 }
 }
