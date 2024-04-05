@@ -14,16 +14,19 @@ describe('Crowdsale', () => {
 		const Crowdsale = await ethers.getContractFactory('Crowdsale')
 		const Token = await ethers.getContractFactory('Token')
 
+		const openDate = Math.floor(new Date('2024-03-29T00:00:00Z').getTime() / 1000)
+  		const closeDate = Math.floor(new Date('2024-11-30T00:00:00Z').getTime() / 1000)
+
 		token = await Token.deploy('Dapp University', 'DAPP', '1000000')
 
 		accounts = await ethers.getSigners()
 		deployer = accounts[0]
 		user1 = accounts[1]
 
-		crowdsale = await Crowdsale.deploy(token.address, ether(1), 1000000)
+		crowdsale = await Crowdsale.deploy(token.address, ether(1), 1000000, openDate, closeDate)
 
 		let transaction = await token.connect(deployer).transfer(crowdsale.address, tokens(1000000))
-		await transaction.wait()		
+		await transaction.wait()
 	})
 
 	describe('Deployment', () => {
@@ -38,6 +41,11 @@ describe('Crowdsale', () => {
 		it('returns the price', async () => {
 			expect(await crowdsale.price()).to.equal(ether(1))
 		})
+
+		it('sets open/close date for buying tokens', async () => {
+			expect(await crowdsale.openDate()).to.equal(1711670400)
+			expect(await crowdsale.closeDate()).to.equal(1732924800)
+		})
 	})
 
 	describe('Buying Tokens', () => {
@@ -47,6 +55,7 @@ describe('Crowdsale', () => {
 		describe('Success', () => {
 
 			beforeEach(async () => {
+				await crowdsale.connect(deployer).addToWhitelist(user1.address)
 				transaction = await crowdsale.connect(user1).buyTokens(amount, { value: ether(10) })
 				result = await transaction.wait()
 			})
@@ -84,6 +93,7 @@ describe('Crowdsale', () => {
 		describe('Success', () => {
 
 			beforeEach(async () => {
+				await crowdsale.connect(deployer).addToWhitelist(user1.address)
 				transaction = await user1.sendTransaction({ to: crowdsale.address, value: amount})
 				result = await transaction.wait()
 			})
@@ -127,6 +137,7 @@ describe('Crowdsale', () => {
 
 		describe('Success', () => {
 			beforeEach(async () => {
+				await crowdsale.connect(deployer).addToWhitelist(user1.address)
 				transaction = await crowdsale.connect(user1).buyTokens(amount, { value: value })
 				result = await transaction.wait()
 
@@ -154,6 +165,6 @@ describe('Crowdsale', () => {
 				await expect(crowdsale.connect(user1).finalize()).to.be.reverted
 			})
 		})
-	})	
+	})
 
 })

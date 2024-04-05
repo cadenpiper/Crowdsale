@@ -23,11 +23,11 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 			const transaction = await crowdsale.connect(signer).buyTokens(formattedAmount, { value: value })
 			await transaction.wait()
 
-		} catch {
-			window.alert('User rejected or transaction reverted')
+		} catch (error) {
+			window.alert('User rejected or transaction reverted', error)
+			console.error(error)
+			alert("Heres the error:", error)
 		}
-
-		
 
 		setIsLoading(true)
 	}

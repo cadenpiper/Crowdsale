@@ -9,21 +9,35 @@ contract Crowdsale {
 	uint256 public price;
 	uint256 public maxTokens;
 	uint256 public tokensSold;
+	uint256 public openDate;
+	uint256 public closeDate;
 
 	mapping(address => bool) public whitelisted;
 
 	event Buy(uint256 amount, address buyer);
 	event Finalize(uint256 tokensSold, uint256 ethRaised);
 
-	constructor(Token _token, uint256 _price, uint256 _maxTokens) {
+	constructor(Token _token, uint256 _price, uint256 _maxTokens, uint256 _openDate, uint256 _closeDate) {
 		owner = msg.sender;
 		token = _token;
 		price = _price;
 		maxTokens = _maxTokens;
+		openDate = _openDate;
+		closeDate = _closeDate;
 	}
 
 	modifier onlyOwner() {
 		require(msg.sender == owner, 'Caller is not the owner.');
+		_;
+	}
+
+	modifier saleOpen() {
+		require(block.timestamp >= openDate && block.timestamp <= closeDate, "Sale is not yet available");
+		_;
+	}
+
+	modifier onlyWhitelisted() {
+		require(whitelisted[msg.sender], "You are not whitelisted to buy tokens.");
 		_;
 	}
 
@@ -32,8 +46,7 @@ contract Crowdsale {
 		buyTokens(amount * 1e18);
 	}
 
-	function buyTokens(uint256 _amount) public payable {
-		require(whitelisted[msg.sender], "You are not whitelisted to buy tokens.");
+	function buyTokens(uint256 _amount) public payable saleOpen {
         require(msg.value == (_amount / 1e18) * price);
 		require(token.balanceOf(address(this)) >= _amount);
 		require(token.transfer(msg.sender, _amount));
@@ -59,6 +72,16 @@ contract Crowdsale {
 
 	function addToWhitelist(address _address) public onlyOwner {
 		whitelisted[_address] = true;
+	}
+
+	function setOpenDate(uint256 _openDate) public {
+		require(msg.sender == owner, "Only the owner can set the open date");
+		openDate = _openDate;
+	}
+
+	function setCloseDate(uint256 _closeDate) public {
+		require(msg.sender == owner, "Only the owner can set the close date");
+		closeDate = _closeDate;
 	}
 
 }

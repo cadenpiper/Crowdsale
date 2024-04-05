@@ -15,6 +15,16 @@
           "internalType": "uint256",
           "name": "_maxTokens",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_openDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_closeDate",
+          "type": "uint256"
         }
       ],
       "stateMutability": "nonpayable",
@@ -86,6 +96,19 @@
     },
     {
       "inputs": [],
+      "name": "closeDate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "finalize",
       "outputs": [],
       "stateMutability": "nonpayable",
@@ -94,6 +117,19 @@
     {
       "inputs": [],
       "name": "maxTokens",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "openDate",
       "outputs": [
         {
           "internalType": "uint256",
@@ -128,6 +164,32 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_closeDate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setCloseDate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_openDate",
+          "type": "uint256"
+        }
+      ],
+      "name": "setOpenDate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
