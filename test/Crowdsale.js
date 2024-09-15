@@ -14,10 +14,10 @@ describe('Crowdsale', () => {
 		const Crowdsale = await ethers.getContractFactory('Crowdsale')
 		const Token = await ethers.getContractFactory('Token')
 
+		token = await Token.deploy('Token', 'TKN', '1000000')
+
 		const openDate = Math.floor(new Date('2024-03-29T00:00:00Z').getTime() / 1000)
   		const closeDate = Math.floor(new Date('2024-11-30T00:00:00Z').getTime() / 1000)
-
-		token = await Token.deploy('Dapp University', 'DAPP', '1000000')
 
 		accounts = await ethers.getSigners()
 		deployer = accounts[0]

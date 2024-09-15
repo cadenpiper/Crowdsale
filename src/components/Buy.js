@@ -25,8 +25,6 @@ const Buy = ({ provider, price, crowdsale, setIsLoading }) => {
 
 		} catch (error) {
 			window.alert('User rejected or transaction reverted', error)
-			console.error(error)
-			alert("Heres the error:", error)
 		}
 
 		setIsLoading(true)

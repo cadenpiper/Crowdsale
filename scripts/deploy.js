@@ -1,13 +1,13 @@
 const hre = require("hardhat");
 
 async function main() {
-  const NAME = 'Dapp University'
-  const SYMBOL = 'DAPP'
+  const NAME = 'Token'
+  const SYMBOL = 'TKN'
   const MAX_SUPPLY = '1000000'
   const PRICE = ethers.utils.parseUnits('0.025', 'ether')
 
   const openDate = Math.floor(new Date('2024-03-29T00:00:00Z').getTime() / 1000)
-  const closeDate = Math.floor(new Date('2024-11-30T23:59:59Z').getTime() / 1000)
+  const closeDate = Math.floor(new Date('2025-11-30T23:59:59Z').getTime() / 1000)
 
   // Converts Unix timestamps back to Date objects
   const openDateObject = new Date(openDate * 1000)
